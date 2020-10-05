@@ -217,8 +217,7 @@ True :: Bool
 
 A pair of boolean and char:
 >>> :t (True, 'x')
-(True,'x') :: (Bool, Char)
-
+(True, 'x') :: (Bool, Char)
 Boolean negation:
 >>> :t not
 not :: Bool -> Bool
@@ -305,7 +304,7 @@ expressions in GHCi
 >>> 10 - 15
 -5
 >>> 10 - (-5)  -- negative constants require ()
-error
+15
 >>> (3 + 5) < 10
 True
 >>> True && False
@@ -417,7 +416,7 @@ task is to specify the type of this function.
 49
 -}
 @
-squareSum :: Num -> Num -> Num
+squareSum :: Int -> Int -> Int
 squareSum x y = (x + y) * (x + y)
 @
 
@@ -438,7 +437,7 @@ Implement the function that takes an integer value and returns the next 'Int'.
   function body with the proper implementation.
 -}
 next :: Int -> Int
-next x = error "next: not implemented!"
+next x = x + 1
 
 {- |
 After you've implemented the function (or even during the implementation), you
@@ -468,7 +467,7 @@ Implement a function that returns the last digit of a given number.
 >>> lastDigit 42
 2
 
-🕯 HINT: use the `mod` function
+🕯 HINT: Use the `mod` function
 
 ♫ NOTE: You can discover possible functions to use via Hoogle:
     https://hoogle.haskell.org/
@@ -478,8 +477,8 @@ Implement a function that returns the last digit of a given number.
   results. Or you can try to guess the function name, search for it and check
   whether it works for you!
 -}
--- DON'T FORGET TO SPECIFY THE TYPE IN HERE
-lastDigit n = error "lastDigit: Not implemented!"
+lastDigit :: Int -> Int
+lastDigit n = mod (abs n) 10
 
 
 {- |
@@ -509,7 +508,7 @@ branches because it is an expression and it must always return some value.
   satisfying the check will be returned and, therefore, evaluated.
 -}
 closestToZero :: Int -> Int -> Int
-closestToZero x y = error "closestToZero: not implemented!"
+closestToZero x y = if abs x < abs y then x else y
 
 
 {- |
@@ -542,8 +541,13 @@ value after "=" where the condition is true.
 
 Casual reminder about adding top-level type signatures for all functions :)
 -}
-
-mid x y z = error "mid: not implemented!"
+mid :: Int -> Int -> Int -> Int
+mid x y z
+    | x <= z && z <= y = z
+    | y <= z && z <= x = z
+    | y <= x && x <= z = x
+    | z <= x && x <= y = x
+    | otherwise        = y
 
 {- |
 =⚔️= Task 8
@@ -557,7 +561,14 @@ True
 >>> isVowel 'x'
 False
 -}
-isVowel c = error "isVowel: not implemented!"
+isVowel :: Char -> Bool
+isVowel c
+    | c == 'a'  = True
+    | c == 'e'  = True
+    | c == 'i'  = True
+    | c == 'o'  = True
+    | c == 'u'  = True
+    | otherwise = False
 
 
 {- |
@@ -620,8 +631,11 @@ Implement a function that returns the sum of the last two digits of a number.
 Try to introduce variables in this task (either with let-in or where) to avoid
 specifying complex expressions.
 -}
-
-sumLast2 n = error "sumLast2: Not implemented!"
+sumLast2 :: Int -> Int
+sumLast2 n =
+    let lastTwo = mod (abs n) 100
+        (second, first) = divMod lastTwo 10
+    in second + first
 
 
 {- |
@@ -642,8 +656,12 @@ You need to use recursion in this task. Feel free to return to it later, if you
 aren't ready for this boss yet!
 -}
 
-firstDigit n = error "firstDigit: Not implemented!"
-
+firstDigit :: Int -> Int
+firstDigit n = go (divMod (abs n) 10)
+  where
+    go :: (Int, Int) -> Int
+    go (0, lastD) = lastD
+    go (rest, _) = go (divMod rest 10)
 
 {-
 You did it! Now it is time to the open pull request with your changes
