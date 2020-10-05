@@ -218,7 +218,6 @@ True :: Bool
 A pair of boolean and char:
 >>> :t (True, 'x')
 (True, 'x') :: (Bool, Char)
-
 Boolean negation:
 >>> :t not
 not :: Bool -> Bool
@@ -416,10 +415,10 @@ task is to specify the type of this function.
 >>> squareSum 3 4
 49
 -}
-
+@
 squareSum :: Int -> Int -> Int
 squareSum x y = (x + y) * (x + y)
-
+@
 
 {- |
 =⚔️= Task 4
